@@ -222,3 +222,15 @@ DB por defecto: SQLite (sqlite:///app.db).
 Para producción, cambia DATABASE_URL (e.g., Postgres) y configura SECRET_KEY.
 
 No subas venv/, __pycache__/ ni .env (ya cubierto en .gitignore).
+
+# Tkinter To-Do (GUI)
+
+Aplicación de Lista de Tareas con **Tkinter** que demuestra: uso de componentes, layout **grid** responsive, eventos (Enter, Supr, Ctrl+N, doble clic), y buenas prácticas (modelo–vista–controlador). Persistencia en `tasks.json`.
+
+## Requisitos
+- Python 3.10+
+- Tkinter (Linux/WSL): `sudo apt install -y python3-tk`
+
+## Ejecutar
+```bash
+python3 tk_todo/tk_todo.py
