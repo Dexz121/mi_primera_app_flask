@@ -100,3 +100,125 @@ git config --global core.eol lf
 # Puerto 5000 ocupado
 lsof -i :5000
 kill -9 <PID>
+
+
+Aplicación web mínima en Flask que cumple los checkpoints: landing, login/registro, sesión persistente, página inicial con contenido dinámico y base de datos relacional (SQLite). Incluye control de versiones (Git/GitHub) y carpeta Entregables.
+
+Estructura
+.
+├─ app.py
+├─ models.py
+├─ auth.py
+├─ main.py
+├─ requirements.txt
+├─ .gitignore
+├─ templates/
+│  ├─ base.html
+│  ├─ index.html
+│  ├─ dashboard.html
+│  ├─ login.html
+│  └─ register.html
+├─ static/
+│  └─ styles.css
+├─ documentation/
+│  └─ db/
+│     └─ er.md
+└─ Entregables/
+
+Requisitos
+
+Python 3.10+ (en WSL2/Ubuntu o Linux)
+
+pip y venv
+
+Git
+
+Instalación
+# 1) Clonar y entrar
+git clone https://github.com/<TU-USUARIO>/<TU-REPO>.git
+cd <TU-REPO>
+
+# 2) Entorno virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# 3) Dependencias
+pip install -r requirements.txt
+
+Variables de entorno (opcional)
+
+Crea un archivo .env en la raíz si deseas personalizar claves/DB:
+
+SECRET_KEY=dev-secret
+DATABASE_URL=sqlite:///app.db
+
+Migraciones y base de datos
+# Indicar el factory de la app a Flask-Migrate
+export FLASK_APP=app:create_app
+
+flask db init
+flask db migrate -m "initial"
+flask db upgrade
+
+(Opcional) Crear un usuario de prueba
+python3 - << 'PY'
+from app import create_app, db
+from models import User
+app = create_app()
+with app.app_context():
+    u = User(name="Demo", email="demo@example.com")
+    u.set_password("demo123")
+    db.session.add(u); db.session.commit()
+    print("Usuario creado:", u.email)
+PY
+
+Ejecutar
+# Opción recomendada (auto-reload y debugger)
+flask --app app:create_app run --debug
+# Navegar a: http://127.0.0.1:5000
+
+Paqueterías usadas
+Flask
+Flask-Login
+Flask-SQLAlchemy
+Flask-Migrate
+python-dotenv
+
+
+Si necesitas regenerar requirements.txt:
+
+pip freeze > requirements.txt
+
+Checkpoints (cómo se cumplen)
+
+CP1: Repositorio público con README.md, requirements.txt y estructura base (listo).
+
+CP2: Esquema ER en documentation/db/er.md (Mermaid).
+
+CP3: Vistas implementadas y navegables:
+
+Landing (sin sesión): / → templates/index.html
+
+Inicio con sesión: /dashboard → templates/dashboard.html
+
+Login: /auth/login
+
+Registro: /auth/register
+
+CP4: Autenticación y sesión persistente con Flask-Login (flujo registro/login/logout).
+
+CP5: Página inicial dinámica (/dashboard) que muestra preguntas según usuario autenticado.
+
+Entregables
+
+Agrega capturas y videos en la carpeta Entregables/ (no comprimir).
+
+Sube el ER y diagramas a documentation/db/ y a la raíz según pida la plataforma.
+
+Notas
+
+DB por defecto: SQLite (sqlite:///app.db).
+
+Para producción, cambia DATABASE_URL (e.g., Postgres) y configura SECRET_KEY.
+
+No subas venv/, __pycache__/ ni .env (ya cubierto en .gitignore).

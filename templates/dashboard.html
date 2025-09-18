@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Preguntas recientes</h1>
+
+  <form action="{{ url_for('main.ask') }}" method="post" class="card">
+    <label>Título*</label>
+    <input type="text" name="title" required>
+    <label>Descripción</label>
+    <textarea name="body" rows="3"></textarea>
+    <button type="submit">Publicar</button>
+  </form>
+
+  <ul>
+    {% for q in questions %}
+      <li>
+        <strong>{{ q.title }}</strong>
+        <div class="meta">por {{ q.author.name }} • {{ q.created_at.strftime("%Y-%m-%d %H:%M") }}</div>
+        {% if q.body %}<p>{{ q.body }}</p>{% endif %}
+      </li>
+    {% else %}
+      <li>No hay preguntas aún.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
